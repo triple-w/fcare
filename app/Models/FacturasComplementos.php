@@ -1,0 +1,125 @@
+<?php
+
+namespace App\Models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* @ORM\Entity(repositoryClass="\App\Models\Repositories\FacturasRepository")
+* @ORM\Table(name="facturas_complementos")
+*/
+class FacturasComplementos {
+
+
+    private $rules = [
+    ];
+
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="bigint")
+     */
+    private $id;
+
+    /**
+    * @ORM\Column(type="text",name="solicitud_timbre",nullable=false)
+    */
+    private $solicitudTimbre;
+
+    /**
+    * @ORM\Column(type="text",name="xml",nullable=false)
+    */
+    private $xml;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Users", inversedBy="facturasComplementos")
+    * @ORM\JoinColumn(name="users_id", referencedColumnName="id", nullable=false)
+    */
+    private $user;
+
+    public function __construct(\App\Models\Users $user = null) {
+        $this->user = $user;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set solicitudTimbre
+     *
+     * @param string $solicitudTimbre
+     *
+     * @return FacturasComplementos
+     */
+    public function setSolicitudTimbre($solicitudTimbre)
+    {
+        $this->solicitudTimbre = $solicitudTimbre;
+
+        return $this;
+    }
+
+    /**
+     * Get solicitudTimbre
+     *
+     * @return string
+     */
+    public function getSolicitudTimbre()
+    {
+        return $this->solicitudTimbre;
+    }
+
+    /**
+     * Set xml
+     *
+     * @param string $xml
+     *
+     * @return FacturasComplementos
+     */
+    public function setXml($xml)
+    {
+        $this->xml = $xml;
+
+        return $this;
+    }
+
+    /**
+     * Get xml
+     *
+     * @return string
+     */
+    public function getXml()
+    {
+        return $this->xml;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \App\Models\Users $user
+     *
+     * @return FacturasComplementos
+     */
+    public function setUser(\App\Models\Users $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \App\Models\Users
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

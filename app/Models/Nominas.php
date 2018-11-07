@@ -1,0 +1,577 @@
+<?php
+
+namespace App\Models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* @ORM\Entity(repositoryClass="\App\Models\Repositories\NominasRepository")
+* @ORM\Table(name="nominas")
+*/
+class Nominas extends DoctrineEntity {
+
+    const TIMBRADA = 'TIMBRADA';
+    const CANCELADA = 'CANCELADA';
+
+    private $rules = [
+    ];
+
+    public static function getRegimenes() {
+        return [
+            '601' => 'General de Ley Personas Morales',
+            '603' => 'Personas Morales con Fines no Lucrativos',
+            '605' => 'Sueldos y Salarios e Ingresos Asimilados a Salarios',
+            '606' => 'Arrendamiento',
+            '608' => 'Demás ingresos',
+            '609' => 'Consolidación',
+            '610' => 'Residentes en el Extranjero sin Establecimiento Permanente en México',
+            '611' => 'Ingresos por Dividendos (socios y accionistas)',
+            '612' => 'Personas Físicas con Actividades Empresariales y Profesionales',
+            '614' => 'Ingresos por intereses',
+            '616' => 'Sin obligaciones fiscales',
+            '620' => 'Sociedades Cooperativas de Producción que optan por diferir sus ingresos',
+            '621' => 'Incorporación Fiscal',
+            '622' => 'Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras',
+            '623' => 'Opcional para Grupos de Sociedades',
+            '624' => 'Coordinados',
+            '628' => 'Hidrocarburos',
+            '607' => 'Régimen de Enajenación o Adquisición de Bienes',
+            '629' => 'De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales',
+            '630' => 'Enajenación de acciones en bolsa de valores',
+            '615' => 'Régimen de los ingresos por obtención de premios',
+        ];
+    }
+
+    public static function getOtrosPagosOptions() {
+        return [
+            '001' => 'Reintegro de ISR pagado en exceso (siempre que no haya sido enterado al SAT).',
+            '002' => 'Subsidio para el empleo (efectivamente entregado al trabajador).',
+            '003' => 'Viáticos (entregados al trabajador).',
+            '004' => 'Aplicación de saldo a favor por compensación anual.',
+            '999' => 'Pagos distintos a los listados y que no deben considerarse como ingreso por sueldos, salarios o ingresos asimilados.',
+        ];
+    }
+
+    public static function getConceptos() {
+        return [
+            '001' => 'Sueldos, Salarios  Rayas y Jornales',
+            '002' => 'Gratificación Anual (Aguinaldo)',
+            '003' => 'Participación de los Trabajadores en las Utilidades PTU',
+            '004' => 'Reembolso de Gastos Médicos Dentales y Hospitalarios',
+            '005' => 'Fondo de Ahorro',
+            '006' => 'Caja de ahorro',
+            '009' => 'Contribuciones a Cargo del Trabajador Pagadas por el Patrón',
+            '010' => 'Premios por puntualidad',
+            '011' => 'Prima de Seguro de vida',
+            '012' => 'Seguro de Gastos Médicos Mayores',
+            '013' => 'Cuotas Sindicales Pagadas por el Patrón',
+            '014' => 'Subsidios por incapacidad',
+            '015' => 'Becas para trabajadores y/o hijos',
+            '019' => 'Horas extra',
+            '020' => 'Prima dominical',
+            '021' => 'Prima vacacional',
+            '022' => 'Prima por antigüedad',
+            '023' => 'Pagos por separación',
+            '024' => 'Seguro de retiro',
+            '025' => 'Indemnizaciones',
+            '026' => 'Reembolso por funeral',
+            '027' => 'Cuotas de seguridad social pagadas por el patrón',
+            '028' => 'Comisiones',
+            '029' => 'Vales de despensa',
+            '030' => 'Vales de restaurante',
+            '031' => 'Vales de gasolina',
+            '032' => 'Vales de ropa',
+            '033' => 'Ayuda para renta',
+            '034' => 'Ayuda para artículos escolares',
+            '035' => 'Ayuda para anteojos',
+            '036' => 'Ayuda para transporte',
+            '037' => 'Ayuda para gastos de funeral',
+            '038' => 'Otros ingresos por salarios',
+            '039' => 'Jubilaciones, pensiones o haberes de retiro',
+            '044' => 'Jubilaciones, pensiones o haberes de retiro en parcialidades',
+            '045' => 'Ingresos en acciones o títulos valor que representan bienes',
+            '046' => 'Ingresos asimilados a salarios',
+            '047' => 'Alimentación',
+            '048' => 'Habitación',
+            '049' => 'Premios por asistencia',
+            '050' => 'Viáticos',
+        ];
+    }
+
+    public static function getConceptosDeducciones() {
+        return [
+            '001' => 'Seguridad social',
+            '002' => 'ISR',
+            '003' => 'Aportaciones a retiro, cesantía en edad avanzada y vejez.',
+            '004' => 'Otros',
+            '005' => 'Aportaciones a Fondo de vivienda',
+            '006' => 'Descuento por incapacidad',
+            '007' => 'Pensión alimenticia',
+            '008' => 'Renta',
+            '009' => 'Préstamos provenientes del Fondo Nacional de la Vivienda para los Trabajadores',
+            '010' => 'Pago por crédito de vivienda',
+            '011' => 'Pago de abonos INFONACOT',
+            '012' => 'Anticipo de salarios',
+            '013' => 'Pagos hechos con exceso al trabajador',
+            '014' => 'Errores',
+            '015' => 'Pérdidas',
+            '016' => 'Averías',
+            '017' => 'Adquisición de artículos producidos por la empresa o establecimiento',
+            '018' => 'Cuotas para la constitución y fomento de sociedades cooperativas y de cajas de ahorro',
+            '019' => 'Cuotas sindicales',
+            '020' => 'Ausencia (Ausentismo)',
+            '021' => 'Cuotas obrero patronales',
+            '022' => 'Impuestos Locales',
+            '023' => 'Aportaciones voluntarias',
+            '024' => 'Ajuste en Gratificación Anual (Aguinaldo) Exento',
+            '025' => 'Ajuste en Gratificación Anual (Aguinaldo) Gravado',
+            '026' => 'Ajuste en Participación de los Trabajadores en las Utilidades PTU Exento',
+            '027' => 'Ajuste en Participación de los Trabajadores en las Utilidades PTU Gravado',
+            '028' => 'Ajuste en Reembolso de Gastos Médicos Dentales y Hospitalarios Exento',
+            '029' => 'Ajuste en Fondo de ahorro Exento',
+            '030' => 'Ajuste en Caja de ahorro Exento',
+            '031' => 'Ajuste en Contribuciones a Cargo del Trabajador Pagadas por el Patrón Exento',
+            '032' => 'Ajuste en Premios por puntualidad Gravado',
+            '033' => 'Ajuste en Prima de Seguro de vida Exento',
+            '034' => 'Ajuste en Seguro de Gastos Médicos Mayores Exento',
+            '035' => 'Ajuste en Cuotas Sindicales Pagadas por el Patrón Exento',
+            '036' => 'Ajuste en Subsidios por incapacidad Exento',
+            '037' => 'Ajuste en Becas para trabajadores y/o hijos Exento',
+            '038' => 'Ajuste en Horas extra Exento',
+            '039' => 'Ajuste en Horas extra Gravado',
+            '040' => 'Ajuste en Prima dominical Exento',
+            '041' => 'Ajuste en Prima dominical Gravado',
+            '042' => 'Ajuste en Prima vacacional Exento',
+            '043' => 'Ajuste en Prima vacacional Gravado',
+            '044' => 'Ajuste en Prima por antigüedad Exento',
+            '045' => 'Ajuste en Prima por antigüedad Gravado',
+            '046' => 'Ajuste en Pagos por separación Exento',
+            '047' => 'Ajuste en Pagos por separación Gravado',
+            '048' => 'Ajuste en Seguro de retiro Exento',
+            '049' => 'Ajuste en Indemnizaciones Exento',
+            '050' => 'Ajuste en Indemnizaciones Gravado',
+            '051' => 'Ajuste en Reembolso por funeral Exento',
+            '052' => 'Ajuste en Cuotas de seguridad social pagadas por el patrón Exento',
+            '053' => 'Ajuste en Comisiones Gravado',
+            '054' => 'Ajuste en Vales de despensa Exento',
+            '055' => 'Ajuste en Vales de restaurante Exento',
+            '056' => 'Ajuste en Vales de gasolina Exento',
+            '057' => 'Ajuste en Vales de ropa Exento',
+            '058' => 'Ajuste en Ayuda para renta Exento',
+            '059' => 'Ajuste en Ayuda para artículos escolares Exento',
+            '060' => 'Ajuste en Ayuda para anteojos Exento',
+            '061' => 'Ajuste en Ayuda para transporte Exento',
+            '062' => 'Ajuste en Ayuda para gastos de funeral Exento',
+            '063' => 'Ajuste en Otros ingresos por salarios Exento',
+            '064' => 'Ajuste en Otros ingresos por salarios Gravado',
+            '065' => 'Ajuste en Jubilaciones, pensiones o haberes de retiro Exento',
+            '066' => 'Ajuste en Jubilaciones, pensiones o haberes de retiro Gravado',
+            '067' => 'Ajuste en Pagos por separación Acumulable',
+            '068' => 'Ajuste en Pagos por separación No acumulable',
+            '069' => 'Ajuste en Jubilaciones, pensiones o haberes de retiro Acumulable',
+            '070' => 'Ajuste en Jubilaciones, pensiones o haberes de retiro No acumulable',
+            '071' => 'Ajuste en Subsidio para el empleo (efectivamente entregado al trabajador)',
+            '072' => 'Ajuste en Ingresos en acciones o títulos valor que representan bienes Exento',
+            '073' => 'Ajuste en Ingresos en acciones o títulos valor que representan bienes Gravado',
+            '074' => 'Ajuste en Alimentación Exento',
+            '075' => 'Ajuste en Alimentación Gravado',
+            '076' => 'Ajuste en Habitación Exento',
+            '077' => 'Ajuste en Habitación Gravado',
+            '078' => 'Ajuste en Premios por asistencia',
+            '079' => 'Ajuste en Pagos distintos a los listados y que no deben considerarse como ingreso por sueldos, salarios o ingresos asimilados.',
+            '080' => 'Ajuste en Viáticos no comprobados',
+            '081' => 'Ajuste en Viáticos anticipados',
+            '082' => 'Ajuste en Fondo de ahorro Gravado',
+            '083' => 'Ajuste en Caja de ahorro Gravado',
+            '084' => 'Ajuste en Prima de Seguro de vida Gravado',
+            '085' => 'Ajuste en Seguro de Gastos Médicos Mayores Gravado',
+            '086' => 'Ajuste en Subsidios por incapacidad Gravado',
+            '087' => 'Ajuste en Becas para trabajadores y/o hijos Gravado',
+            '088' => 'Ajuste en Seguro de retiro Gravado',
+            '089' => 'Ajuste en Vales de despensa Gravado',
+            '090' => 'Ajuste en Vales de restaurante Gravado',
+            '091' => 'Ajuste en Vales de gasolina Gravado',
+            '092' => 'Ajuste en Vales de ropa Gravado',
+            '093' => 'Ajuste en Ayuda para renta Gravado',
+            '094' => 'Ajuste en Ayuda para artículos escolares Gravado',
+            '095' => 'Ajuste en Ayuda para anteojos Gravado',
+            '096' => 'Ajuste en Ayuda para transporte Gravado',
+            '097' => 'Ajuste en Ayuda para gastos de funeral Gravado',
+            '098' => 'Ajuste a ingresos asimilados a salarios gravados',
+            '099' => 'Ajuste a ingresos por sueldos y salarios gravados',
+        ];
+    }
+
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="bigint")
+     */
+    private $id;
+
+    /**
+    * @ORM\Column(type="string",length=15,name="estatus",nullable=false)
+    */
+    private $estatus;
+
+    /**
+    * @ORM\Column(type="string",length=150,name="uuid",nullable=false)
+    */
+    private $uuid;
+
+    /**
+    * @ORM\Column(type="CarbonDateTime",name="fecha",nullable=true)
+    */
+    private $fecha;
+
+    /**
+    * @ORM\Column(type="text",name="solicitud_timbre",nullable=false)
+    */
+    private $solicitudTimbre;
+
+    /**
+    * @ORM\Column(type="text",name="xml",nullable=false)
+    */
+    private $xml;
+
+    /**
+    * @ORM\Column(type="text",name="pdf",nullable=false)
+    */
+    private $pdf;
+
+    /**
+    * @ORM\Column(type="text",name="acuse",nullable=true)
+    */
+    private $acuse;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Users", inversedBy="nominas")
+    * @ORM\JoinColumn(name="users_id", referencedColumnName="id", nullable=false)
+    */
+    private $user;
+
+    /**
+    * @ORM\OneToMany(targetEntity="NominasPercepciones", mappedBy="nomina", cascade={"persist", "remove"}, orphanRemoval=false)
+    */
+    private $percepciones;
+
+    /**
+    * @ORM\OneToMany(targetEntity="NominasDeducciones", mappedBy="nomina", cascade={"persist", "remove"}, orphanRemoval=false)
+    */
+    private $deducciones;
+
+    /**
+    * @ORM\OneToMany(targetEntity="NominasOtrosPagos", mappedBy="nomina", cascade={"persist", "remove"}, orphanRemoval=false)
+    */
+    private $otrosPagos;
+
+    /**
+     * Constructor
+     */
+    public function __construct(\App\Models\Users $user = null)
+    {
+        $this->percepciones = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->deducciones = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $this->user = $user;
+        $this->fecha = \Carbon\Carbon::now();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set estatus
+     *
+     * @param string $estatus
+     *
+     * @return Nominas
+     */
+    public function setEstatus($estatus)
+    {
+        $this->estatus = $estatus;
+
+        return $this;
+    }
+
+    /**
+     * Get estatus
+     *
+     * @return string
+     */
+    public function getEstatus()
+    {
+        return $this->estatus;
+    }
+
+    /**
+     * Set uuid
+     *
+     * @param string $uuid
+     *
+     * @return Nominas
+     */
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    /**
+     * Get uuid
+     *
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * Set fecha
+     *
+     * @param CarbonDateTime $fecha
+     *
+     * @return Nominas
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return CarbonDateTime
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Set solicitudTimbre
+     *
+     * @param string $solicitudTimbre
+     *
+     * @return Nominas
+     */
+    public function setSolicitudTimbre($solicitudTimbre)
+    {
+        $this->solicitudTimbre = $solicitudTimbre;
+
+        return $this;
+    }
+
+    /**
+     * Get solicitudTimbre
+     *
+     * @return string
+     */
+    public function getSolicitudTimbre()
+    {
+        return $this->solicitudTimbre;
+    }
+
+    /**
+     * Set xml
+     *
+     * @param string $xml
+     *
+     * @return Nominas
+     */
+    public function setXml($xml)
+    {
+        $this->xml = $xml;
+
+        return $this;
+    }
+
+    /**
+     * Get xml
+     *
+     * @return string
+     */
+    public function getXml()
+    {
+        return $this->xml;
+    }
+
+    /**
+     * Set pdf
+     *
+     * @param string $pdf
+     *
+     * @return Nominas
+     */
+    public function setPdf($pdf)
+    {
+        $this->pdf = $pdf;
+
+        return $this;
+    }
+
+    /**
+     * Get pdf
+     *
+     * @return string
+     */
+    public function getPdf()
+    {
+        return $this->pdf;
+    }
+
+    /**
+     * Set acuse
+     *
+     * @param string $acuse
+     *
+     * @return Nominas
+     */
+    public function setAcuse($acuse)
+    {
+        $this->acuse = $acuse;
+
+        return $this;
+    }
+
+    /**
+     * Get acuse
+     *
+     * @return string
+     */
+    public function getAcuse()
+    {
+        return $this->acuse;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \App\Models\Users $user
+     *
+     * @return Nominas
+     */
+    public function setUser(\App\Models\Users $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \App\Models\Users
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add percepcione
+     *
+     * @param \App\Models\NominasPercepciones $percepcione
+     *
+     * @return Nominas
+     */
+    public function addPercepcione(\App\Models\NominasPercepciones $percepcione)
+    {
+        $this->percepciones[] = $percepcione;
+
+        return $this;
+    }
+
+    /**
+     * Remove percepcione
+     *
+     * @param \App\Models\NominasPercepciones $percepcione
+     */
+    public function removePercepcione(\App\Models\NominasPercepciones $percepcione)
+    {
+        $this->percepciones->removeElement($percepcione);
+    }
+
+    /**
+     * Get percepciones
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPercepciones()
+    {
+        return $this->percepciones;
+    }
+
+    /**
+     * Add deduccione
+     *
+     * @param \App\Models\NominasDeducciones $deduccione
+     *
+     * @return Nominas
+     */
+    public function addDeduccione(\App\Models\NominasDeducciones $deduccione)
+    {
+        $this->deducciones[] = $deduccione;
+
+        return $this;
+    }
+
+    /**
+     * Remove deduccione
+     *
+     * @param \App\Models\NominasDeducciones $deduccione
+     */
+    public function removeDeduccione(\App\Models\NominasDeducciones $deduccione)
+    {
+        $this->deducciones->removeElement($deduccione);
+    }
+
+    /**
+     * Get deducciones
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDeducciones()
+    {
+        return $this->deducciones;
+    }
+
+    /**
+     * Add otrosPago
+     *
+     * @param \App\Models\NominasOtrosPagos $otrosPago
+     *
+     * @return Nominas
+     */
+    public function addOtrosPago(\App\Models\NominasOtrosPagos $otrosPago)
+    {
+        $this->otrosPagos[] = $otrosPago;
+
+        return $this;
+    }
+
+    /**
+     * Remove otrosPago
+     *
+     * @param \App\Models\NominasOtrosPagos $otrosPago
+     */
+    public function removeOtrosPago(\App\Models\NominasOtrosPagos $otrosPago)
+    {
+        $this->otrosPagos->removeElement($otrosPago);
+    }
+
+    public function getOtrosPagos() {
+        return $this->otrosPagos;
+    }
+}

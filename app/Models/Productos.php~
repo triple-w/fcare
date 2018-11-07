@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* @ORM\Entity
+* @ORM\Table(name="productos")
+*/
+class Productos extends DoctrineEntity {
+
+	private $rules = [
+	];
+
+	/**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="bigint")
+     */
+    private $id;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="clave",nullable=false)
+    */
+    private $clave;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="nombre",nullable=false)
+    */
+    private $nombre;
+
+    /**
+    * @ORM\Column(type="integer",name="unidad",nullable=false)
+    */
+    private $unidad;
+
+    /**
+    * @ORM\Column(type="decimal",precision=18,scale=2,name="precio",nullable=false)
+    */
+    private $precio;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="producto_emisor",nullable=false)
+    */
+    private $productoEmisor;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Users", inversedBy="productos")
+    * @ORM\JoinColumn(name="users_id", referencedColumnName="id", nullable=false)
+    */
+    private $user;
+
+}

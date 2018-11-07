@@ -1,0 +1,262 @@
+<?php
+
+namespace App\Models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* @ORM\Entity(repositoryClass="App\Models\Repositories\UsersPerfilRepository")
+* @ORM\Table(name="users_perfil")
+*/
+class UsersPerfil extends Info {
+
+    private $rules = [
+    ];
+
+    public static function getRegimenes() {
+        return [
+            '601' => 'General de Ley Personas Morales',
+            '603' => 'Personas Morales con Fines no Lucrativos',
+            '605' => 'Sueldos y Salarios e Ingresos Asimilados a Salarios',
+            '606' => 'Arrendamiento',
+            '608' => 'Demás ingresos',
+            '609' => 'Consolidación',
+            '610' => 'Residentes en el Extranjero sin Establecimiento Permanente en México',
+            '611' => 'Ingresos por Dividendos (socios y accionistas)',
+            '612' => 'Personas Físicas con Actividades Empresariales y Profesionales',
+            '614' => 'Ingresos por intereses',
+            '616' => 'Sin obligaciones fiscales',
+            '620' => 'Sociedades Cooperativas de Producción que optan por diferir sus ingresos',
+            '621' => 'Incorporación Fiscal',
+            '622' => 'Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras',
+            '623' => 'Opcional para Grupos de Sociedades',
+            '624' => 'Coordinados',
+            '628' => 'Hidrocarburos',
+            '607' => 'Régimen de Enajenación o Adquisición de Bienes',
+            '629' => 'De los Regímenes Fiscales Preferentes y de las Empresas Multinacionales',
+            '630' => 'Enajenación de acciones en bolsa de valores',
+            '615' => 'Régimen de los ingresos por obtención de premios',
+        ];
+    }
+
+    /**
+    * @ORM\Column(type="integer",name="numero_regimen",nullable=false)
+    */
+    private $numeroRegimen;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="nombre_regimen",nullable=false)
+    */
+    private $nombreRegimen;
+
+    /**
+    * @ORM\Column(type="integer",name="numero_regimen33",nullable=false)
+    */
+    private $numeroRegimen33;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="nombre_regimen33",nullable=false)
+    */
+    private $nombreRegimen33;
+
+    /**
+    * @ORM\OneToOne(targetEntity="Users", inversedBy="perfil")
+    * @ORM\JoinColumn(name="users_id", referencedColumnName="id", nullable=false)
+    */
+    private $user;
+
+    public function __construct(\App\Models\Users $user = null) {
+        $this->user = $user;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \App\Models\Users $user
+     *
+     * @return UsersInfo
+     */
+    public function setUser(\App\Models\Users $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \App\Models\Users
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set numeroRegimen
+     *
+     * @param integer $numeroRegimen
+     *
+     * @return UsersPerfil
+     */
+    public function setNumeroRegimen($numeroRegimen)
+    {
+        $this->numeroRegimen = $numeroRegimen;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroRegimen
+     *
+     * @return integer
+     */
+    public function getNumeroRegimen()
+    {
+        return $this->numeroRegimen;
+    }
+
+    /**
+     * Set nombreRegimen
+     *
+     * @param string $nombreRegimen
+     *
+     * @return UsersPerfil
+     */
+    public function setNombreRegimen($nombreRegimen)
+    {
+        $this->nombreRegimen = $nombreRegimen;
+
+        return $this;
+    }
+
+    /**
+     * Get nombreRegimen
+     *
+     * @return string
+     */
+    public function getNombreRegimen()
+    {
+        return $this->nombreRegimen;
+    }
+    /**
+     * Set numeroRegimen33
+     *
+     * @param integer $numeroRegimen33
+     *
+     * @return UsersPerfil
+     */
+    public function setNumeroRegimen33($numeroRegimen33)
+    {
+        $this->numeroRegimen33 = $numeroRegimen33;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroRegimen33
+     *
+     * @return integer
+     */
+    public function getNumeroRegimen33()
+    {
+        return $this->numeroRegimen33;
+    }
+
+    /**
+     * Set nombreRegimen33
+     *
+     * @param string $nombreRegimen33
+     *
+     * @return UsersPerfil
+     */
+    public function setNombreRegimen33($nombreRegimen33)
+    {
+        $this->nombreRegimen33 = $nombreRegimen33;
+
+        return $this;
+    }
+
+    /**
+     * Get nombreRegimen33
+     *
+     * @return string
+     */
+    public function getNombreRegimen33()
+    {
+        return $this->nombreRegimen33;
+    }
+/***************************************************************
+    /**
+     * Set ciec
+     *
+     * @param string $ciec
+     *
+     * @return UsersPerfil
+     */
+    /*public function setCiec($ciec)
+    {
+        $this->ciec = $ciec;
+
+        return $this;
+    }
+
+    /**
+     * Get ciec
+     *
+     * @return string
+     */
+    /*public function getCiec()
+    {
+        return $this->ciec;
+    }
+
+    /**
+     * Set verificarCiec
+     *
+     * @param boolean $verificarCiec
+     *
+     * @return UsersPerfil
+     */
+    /*public function setVerificarCiec($verificarCiec)
+    {
+        $this->verificarCiec = $verificarCiec;
+
+        return $this;
+    }
+
+    /**
+     * Get verificarCiec
+     *
+     * @return boolean
+     */
+    /*public function getVerificarCiec()
+    {
+        return $this->verificarCiec;
+    }
+
+    /**
+     * Set ciecVerificada
+     *
+     * @param boolean $ciecVerificada
+     *
+     * @return UsersPerfil
+     */
+    /*public function setCiecVerificada($ciecVerificada){
+        $this->ciecVerificada = $ciecVerificada;
+
+        return $this;
+    }
+
+    /**
+     * Get ciecVerificada
+     *
+     * @return boolean
+     */
+    /*public function getCiecVerificada()
+    {
+        return $this->ciecVerificada;
+    }
+    ************************************************************************/
+}

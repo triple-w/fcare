@@ -1,0 +1,19 @@
+{
+  "name": "fact_app",
+  "version": "1.0.0",
+  "dependencies": {
+    "bootstrap": "*",
+    "jquery": "*",
+    "jquery-ui": "*",
+    "jquery-ui-bootstrap": "jquery-ui-bootstrap/jquery-ui-bootstrap",
+    "jquery.validate": "~1.13.0",
+    "requirejs": "*",
+    "datatables.net": "~1.10.11",
+    "datatables.net-bs": "~1.10.11",
+    "datatables.net-responsive": "~2.0.2",
+    "datatables.net-responsive-bs": "~2.0.2",
+    "pnotify": "^3.0.0",
+    "cropit": "~0.5.1",
+    "cropper": "^2.3.4"
+  }
+}

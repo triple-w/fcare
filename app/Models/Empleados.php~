@@ -1,0 +1,177 @@
+<?php
+
+namespace App\Models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* @ORM\Entity
+* @ORM\Table(name="empleados")
+*/
+class Empleados extends DoctrineEntity {
+
+	private $rules = [
+	];
+
+	/**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="bigint")
+     */
+    private $id;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="nombre",nullable=false)
+    */
+    private $nombre;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="rfc",nullable=false)
+    */
+    private $rfc;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="curp",nullable=false)
+    */
+    private $curp;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="num_seguro_social",nullable=false)
+    */
+    private $numSeguroSocial;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="calle",nullable=false)
+    */
+    private $calle;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="localidad",nullable=false)
+    */
+    private $localidad;
+
+    /**
+    * @ORM\Column(type="string",length=10,name="no_exterior",nullable=false)
+    */
+    private $noExterior;
+
+    /**
+    * @ORM\Column(type="string",length=10,name="no_interior",nullable=false)
+    */
+    private $noInterior;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="referencia",nullable=false)
+    */
+    private $referencia;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="colonia",nullable=false)
+    */
+    private $colonia;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="estado",nullable=false)
+    */
+    private $estado;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="municipio",nullable=false)
+    */
+    private $municipio;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="pais",nullable=false)
+    */
+    private $pais;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="codigo_postal",nullable=false)
+    */
+    private $codigoPostal;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="telefono",nullable=true)
+    */
+    private $telefono;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="email",nullable=true)
+    */
+    private $email;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="registro_patronal",nullable=false)
+    */
+    private $registroPatronal;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="tipo_contrato",nullable=false)
+    */
+    private $tipoContrato;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="numero_empleado",nullable=false)
+    */
+    private $numeroEmpleado;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="riesgo_puesto",nullable=false)
+    */
+    private $riesgoPuesto;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="tipo_jornada",nullable=false)
+    */
+    private $tipoJornada;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="puesto",nullable=false)
+    */
+    private $puesto;
+
+    /**
+    * @ORM\Column(type="CarbonDate",name="fecha_inicio_laboral",nullable=true)
+    */
+    private $fechaInicioLaboral;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="tipo_regimen",nullable=false)
+    */
+    private $tipoRegimen;
+
+    /**
+    * @ORM\Column(type="decimal",precision=10,scale=2,name="salario",nullable=false)
+    */
+    private $salario;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="periodicidad_pago",nullable=false)
+    */
+    private $periodicidadPago;
+
+    /**
+    * @ORM\Column(type="decimal",precision=10,scale=2,name="salario_diario_integrado",nullable=false)
+    */
+    private $salarioDiarioIntegrado;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="clabe",nullable=false)
+    */
+    private $clabe;
+
+    /**
+    * @ORM\Column(type="string",length=50,name="banco",nullable=false)
+    */
+    private $banco;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Users", inversedBy="empleados")
+    * @ORM\JoinColumn(name="users_id", referencedColumnName="id", nullable=false)
+    */
+    private $user;
+
+    public function __construct(\App\Models\Users $user = null) {
+        $this->user = $user;
+    }
+}

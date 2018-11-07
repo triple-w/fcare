@@ -1,0 +1,31 @@
+html body {
+  font-size: 13px;
+}
+
+html body span.label {
+  font-size: 12px;
+}
+
+html body p.subtotal {
+  text-align: right;
+}
+
+/* Custom */
+
+#usersAcciones .col-sm-2 .btn {
+  width: 100%;
+  padding: 9px 0;
+  margin: 5px 0;
+}
+
+.img {
+  max-width: 100%;
+}
+
+.img-login {
+  width: 200px;
+}
+
+.img-logo.img-header {
+  max-width: 180px;
+}

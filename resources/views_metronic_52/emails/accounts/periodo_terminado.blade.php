@@ -1,0 +1,1 @@
+Se termino un periodo.

@@ -1,0 +1,54 @@
+<?php
+
+namespace App\Models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* @ORM\Entity
+* @ORM\Table(name="facturas_pagos")
+*/
+class FacturasPagos extends DoctrineEntity
+{
+
+     /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="bigint")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="CarbonDate",name="fecha_solicitud",nullable=false)
+     */
+    private $fechaSolicitud;
+
+    /**
+     * @ORM\Column(type="boolean",name="estatus",nullable=false)
+     */
+    private $estatus;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Users", inversedBy="facturasPago")
+    * @ORM\JoinColumn(name="users_id", referencedColumnName="id", nullable=false)
+    */
+    private $user;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="UsersPagosContabilidad", inversedBy="facturasPago")
+    * @ORM\JoinColumn(name="users_pagos_contabilidad_id", referencedColumnName="id", nullable=false)
+    */
+    private $pagoContabilidad;
+
+    /**
+     * Constructor
+     */
+    public function __construct(\App\Models\Users $user = null, \App\Models\UsersPagosContabilidad $pagoContabilidad = null)
+    {
+        $this->user = $user;
+        $this->pagoContabilidad = $pagoContabilidad;
+        $this->fechaSolicitud = \Carbon\Carbon::now();
+        $this->estatus = false;
+    }
+
+}

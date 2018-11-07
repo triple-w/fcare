@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* @ORM\Entity
+* @ORM\Table(name="nominas_otros_pagos")
+*/
+class NominasOtrosPagos extends DoctrineEntity {
+
+	private $rules = [
+	];
+
+	/**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="bigint")
+     */
+    private $id;
+
+    /**
+    * @ORM\Column(type="string",length=15,name="tipo_otro_pago",nullable=false)
+    */
+    private $tipoOtroPago;
+
+    /**
+    * @ORM\Column(type="string",length=15,name="clave",nullable=false)
+    */
+    private $clave;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="concepto",nullable=false)
+    */
+    private $concepto;
+
+    /**
+    * @ORM\Column(type="decimal",precision=10,scale=2,name="importe",nullable=false)
+    */
+    private $importe;
+
+    /**
+    * @ORM\Column(type="decimal",precision=10,scale=2,name="subsidio_causado",nullable=false)
+    */
+    private $subsidioCausado;
+
+    /**
+    * @ORM\Column(type="decimal",precision=10,scale=2,name="saldo_favor",nullable=false)
+    */
+    private $saldoFavor;
+
+    /**
+    * @ORM\Column(type="integer",name="anio",nullable=false)
+    */
+    private $anio;
+
+    /**
+    * @ORM\Column(type="decimal",precision=10,scale=2,name="remanente",nullable=false)
+    */
+    private $remanente;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Nominas", inversedBy="otrosPagos")
+    * @ORM\JoinColumn(name="nominas_id", referencedColumnName="id", nullable=false)
+    */
+    private $nomina;
+}

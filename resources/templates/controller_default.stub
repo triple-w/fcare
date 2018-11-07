@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Http\Controllers\:name;
+
+use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+use App\Models\:name;
+
+use Flash;
+
+class :nameController extends Controller
+{
+
+    public function __construct(Request $request) {
+        parent::__construct($request);
+    }
+
+    public function getIndex() {
+    	$:plural = :name::findAll();
+    	return $this->render(':plural.index', [ ':plural' => $:plural ]);
+    }
+
+    public function getAdd() {
+    	return $this->render(':plural.add');
+    }
+
+    public function postAdd() {
+    	$:singular = new :name();
+
+    	$:singular->save($this->request, [], [
+    		'validate' => true,
+    		'flush' => true,
+    	]);
+
+    	Flash::success('Registro agregado correctamente');
+    	return redirect()->action(':name\:nameController@getIndex');
+    }
+
+    public function getEdit($id) {
+    	$:singular = :name::find($id);
+
+    	if (!$:singular) {
+    		return redirect('/');
+    	}
+
+    	return $this->render(':plural.edit', [ ':singular' => $:singular ]);
+    }
+
+    public function postEdit($id) {
+    	$:singular = :name::find($id);
+
+    	if (!$:singular) {
+    		return redirect('/');
+    	}
+
+    	$:singular->save($this->request, [], [
+    		'validate' => true,
+    		'flush' => true,
+    	]);
+
+    	Flash::success('Registro editado correctamente');
+    	return redirect()->action(':name\:nameController@getIndex');
+    }
+
+    public function getDelete($id) {
+    	$:singular = :name::find($id);
+
+    	if (!$:singular) {
+    		return redirect('/');
+    	}
+
+    	$:singular->remove();
+
+    	Flash::success('Registro eliminado correctamente');
+    	return redirect()->action(':name\:nameController@getIndex');	
+    }
+
+}

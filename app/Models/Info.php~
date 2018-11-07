@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/** @ORM\MappedSuperclass */
+class Info extends DoctrineEntity {
+
+	private $rules = [
+	];
+
+	/**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="bigint")
+     */
+    private $id;
+
+    /**
+    * @ORM\Column(type="string",length=15,name="rfc",nullable=false)
+    */
+    private $rfc;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="razon_social",nullable=false)
+    */
+    private $razonSocial;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="calle",nullable=false)
+    */
+    private $calle;
+
+    /**
+    * @ORM\Column(type="string",length=10,name="no_ext",nullable=false)
+    */
+    private $noExt;
+
+    /**
+    * @ORM\Column(type="string",length=10,name="no_int",nullable=true)
+    */
+    private $noInt;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="colonia",nullable=false)
+    */
+    private $colonia;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="municipio",nullable=false)
+    */
+    private $municipio;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="localidad",nullable=true)
+    */
+    private $localidad;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="estado",nullable=false)
+    */
+    private $estado;
+
+    /**
+    * @ORM\Column(type="string",length=10,name="codigo_postal",nullable=false)
+    */
+    private $codigoPostal;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="pais",nullable=false)
+    */
+    private $pais;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="telefono",nullable=false)
+    */
+    private $telefono;
+
+    /**
+    * @ORM\Column(type="string",length=90,name="nombre_contacto",nullable=true)
+    */
+    private $nombreContacto;
+
+}

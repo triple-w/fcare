@@ -1,0 +1,1 @@
+Factura generada correctamente

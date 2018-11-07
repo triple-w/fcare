@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Models;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+* @ORM\Entity
+* @ORM\Table(name="folios")
+*/
+class Folios extends DoctrineEntity {
+
+	private $rules = [
+	];
+
+	/**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="bigint")
+     */
+    private $id;
+
+    /**
+    * @ORM\Column(type="string",length=30,name="tipo",nullable=false)
+    */
+    private $tipo;
+
+    /**
+    * @ORM\Column(type="string",length=20,name="serie",nullable=false)
+    */
+    private $serie;
+
+    /**
+    * @ORM\Column(type="integer",name="folio",nullable=false)
+    */
+    private $folio;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="Users", inversedBy="folios")
+    * @ORM\JoinColumn(name="users_id", referencedColumnName="id", nullable=false)
+    */
+    private $user;
+
+}
